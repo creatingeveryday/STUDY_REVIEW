@@ -44,10 +44,10 @@ PostgreSQL : 4계층 ( 인스턴스 - 데이터베이스 - 스키마 - 오브젝
 
 3. Isolation(고립, 격리성): 복수의 사용자가 일련의 데이터 조작을 동시에 실행해도 각각의 처리가 모순 없이 실행되는 것을 보증한다. 즉 복수의 트랜잭션이 순서대로 실행되는 것과 같은 결과를 얻는다. 병렬 실행이 일관성있게 수행되는 것이다. DB에서는 테이블 전체 혹은 행 단위로 후속처리에 대해 락을 걸어서 블록시키는 방법이 있다. 
 
-격리 수준(Transaction Isolation Level) : 4번의 Serializable이 가장 엄격한 수준의 격리수준이다. 격리 수준이 완화되면서 Pantom Read, Fuzzy Read, Dirty Read와 같은 현상이 발생한다. 
+격리 수준(Transaction Isolation Level) : 4번의 Serializable이 가장 엄격한 수준의 격리수준이다. 격리 수준이 완화되면서 Phantom Read, Fuzzy Read, Dirty Read와 같은 현상이 발생한다. 
 
 	4. Serializable : 안전하지만 성능면에서는 실용적이지 않을 수 있다. 
-	3. Repeatable Read - Pantom Read 현상 발생 : 어떤 트랜잭션을 읽을 때 선택할 수 있는 데이터가 나타나거나 사라지는  현상(다른 사용자가 INSERT, DELETE하여 조회를 반복할시 결과가 달라짐) 
+	3. Repeatable Read - Phantom Read 현상 발생 : 어떤 트랜잭션을 읽을 때 선택할 수 있는 데이터가 나타나거나 사라지는  현상(다른 사용자가 INSERT, DELETE하여 조회를 반복할시 결과가 달라짐)
 	2. Read Committed - 추가로 Fuzzy Read 현상 발생 : 어떤 트랜잭션이 이전에 읽어 들인 데이터를 다시 읽어 들일 때 2회 이후의 결과가 1회 때와 다른 현상.  
 	1. Read Uncommitted - 추가로 Dirty Read 현상 발생: 어떤 트랜잭션이 커밋되기도 전에 다른 트랜잭션에서 데이터를 읽는 현상.
 
