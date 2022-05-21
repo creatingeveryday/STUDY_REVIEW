@@ -18,6 +18,13 @@ mybatis 설정파일 => SqlSessionFactoryBuilder => SqlSessionFactory => SqlSess
 6. SqlSession은 데이터베이스로부터 가져온 데이터로 조회 목록을 생성하여 반환한다.
 7. DAO는 사용이 끝난 SqlSession 을 닫는다.  
 
+설정
+
+Mybatis 설정 헷갈리는 부분이 있어서 해결하고 정리해야할 것 같다. 
+
+기본적인 흐름 흐름 
+
+Controller - Service - DAO - DB
 
 ### 오류
 
