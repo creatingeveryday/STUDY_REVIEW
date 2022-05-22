@@ -20,11 +20,45 @@ mybatis 설정파일 => SqlSessionFactoryBuilder => SqlSessionFactory => SqlSess
 
 설정
 
-Mybatis 설정 헷갈리는 부분이 있어서 해결하고 정리해야할 것 같다. 
+- 기본적인 흐름 
+Controller -   Service(ServiceImpl)        - Mapper(sql.xml) - DB
+```java
+Mybatis 관련 설정 파일. Config.java
 
-기본적인 흐름 흐름 
+@MapperScan(basePackages = "com.project.msg.mapper")  
+@Configuration  
+public class MybatisConfig {  
+  
+    private final ApplicationContext context;  
+  
+  @Bean  
+  public SqlSessionFactory sqlSessionFactory(DataSource dataSource) throws Exception {  
+  
+        SqlSessionFactoryBean sessionFactory = new SqlSessionFactoryBean();  
+  
+  sessionFactory.setDataSource(dataSource);  
+  sessionFactory.setMapperLocations(context.getResources("classpath:mapper/*.xml"));  //mapping! .xml 파일 경로
+  sessionFactory.setTypeAliasesPackage( "com.project.msg.dto" );  //패키지 단위로 별칭 설정
+  
+ return sessionFactory.getObject();  
+  }  
+  
+    @Bean   
+  public SqlSessionTemplate sqlSessionTemplate(SqlSessionFactory sqlSessionFactory) throws Exception {  
+        SqlSessionTemplate sqlSessionTemplate = new SqlSessionTemplate(sqlSessionFactory);  
+  sqlSessionTemplate.getConfiguration().setMapUnderscoreToCamelCase(true);  
+  
+ return sqlSessionTemplate;  
+  }  
+  
+    @Bean  
+  public DataSourceTransactionManager transactionManager(DataSource dataSource) {  
+        return new DataSourceTransactionManager(dataSource);  
+  }  
+}
+```
 
-Controller - Service - DAO - DB
+
 
 ### 오류
 
