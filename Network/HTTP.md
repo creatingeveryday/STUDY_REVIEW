@@ -125,3 +125,30 @@ HTTP 완벽가이드
 				- 매 요청마다 TCP/IP 연결을 새로 맺어야함. 그만큼 3-way-handshake 시간이 추가됨.
 				- 웹 브라우저로 사이트를 요청하면 HTML 뿐만 아니라 자바스크립트, css, 추가 이미지등 수많은 자원이 함께 다운로드되는 상황에선 비효율적. 
 				- 지금은 HTTP 지속 연결(Persistent Connection)로 문제 해결 했고 HTTP/2, HTTP/3에서 더 많은 최적화
+
+		- HTTP 메시지(rfc7230)
+			- 시작라인 - 헤더 - 공백라인(CRLF) - 메시지 바디
+			- 시작라인(start-line)
+				- 요청시 : request-line : method SP(공백) request-target SP HTTP-version CRLF 
+					- 예 : (GET /search?q=hi HTTP/1.1)
+					- method : get, post, put, delete... 서버가 수행해야할 동작 지정
+					- request-target : absolute-path[?query] 절대경로("/")로 시작하는 경로. (다른 유형으로 경로 지정 가능)
+				- 응답시 : status-line : HTTP-version SP status-code SP reason-phrase CRLF  
+					- 예 : HTTP/1.1 200 OK
+					- HTTP 상태코드 : 요청 성공, 실패 등 요청에대한 정보를 나타냄.
+						-  200 성공, 400 클라이언트 요청오류, 500 서버 내부 오류
+					- 이유 문구 : 사람이 이해할 수 있는 짧은 상태코드 설명 글
+			- 헤더(Header)
+				- hearder-field  = field-name ":" OWS field-value OWS (OWS는 띄어쓰기 허용을 의미)
+					- field-name 은 대소문자 구분 없음
+					- 예) Host: www.google.com
+					- 예) Content-Type: text/html;charset=UTF-8
+				- Header 의 용도
+					- HTTP 전송에 필요한 모든 부가 정보. 바디외의 모든 메타정보
+					- 바디의 내용, 크기, 압축, 인증, 요청 클라이언트의 정보, 서버 정보, 캐시 관리 정보... 
+					- 표준 헤더가 너무 많음. 
+					- 필요시 임의의 헤더 추가 가능 
+			- 바디(Body)
+				- 실제 전송할 데이터
+				- HTML문서 ,이미지,영상,JSON byte로 표현될 수 있는 모든 데이터 전송가능
+	-  HTTP 프로토콜은 단순하지만 확장가능하다. 
