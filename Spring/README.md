@@ -13,3 +13,20 @@
 ### 객체 그리고 협력
 
 ### 스프링의 핵심은? 왜 만들어졌나? 
+
+### 스프링과 스프링부트의 차이점
+
+- 복잡한 설정을 간단하게!  XML(web.xml, DispatcherServlet...) 설정을 하지 않아도 기본적인 설정을 이용해 개발을 빠르게 시작할 수 있다. (미리 설정된 기본적인 설정을 이용해 개발할 수 있다.)
+	- DispatcherServlet : 인터셉터, 컨트롤러와 같은 클래스들의 설정을 지정
+
+
+- Embed Tomcat을 사용한다. 
+	- 설정 참고 : https://docs.spring.io/spring-boot/docs/current/reference/html/application-properties.html#appendix.application-properties.server
+	- Tomcat : Web Application Container, Web Application Server
+	- Class Loader
+		- JVM에 컴파일된 자바 소스 파일을 실행하기 위해 클래스를 로딩
+		- 웹 애플리케이션 컨테이너는 WAR 파일의 WEB-INF 폴더를 기준으로 클래스파일을 로드하고, JAR 파일을 로드한다. 
+		- Class Loader 특징
+			- 로딩한 클래스 언로딩 불가능. -> 가비지 컬렉터 동작 또는 WAS 재시작될때 초기화
+			- 사용자는 시스템 클래스 로더가 로드하는 클래스 패스 영역에만 접근할 수 있다.  
+	
