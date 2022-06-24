@@ -29,6 +29,8 @@
 		- Class Loader 특징
 			- 로딩한 클래스 언로딩 불가능. -> 가비지 컬렉터 동작 또는 WAS 재시작될때 초기화
 			- 사용자는 시스템 클래스 로더가 로드하는 클래스 패스 영역에만 접근할 수 있다.  
+- Spring에서 사용한 xml 대신 Spring Boot에서는 @Component를 이용하거나 @Configuration 클래스 내부에서 @Bean 어노테이션을 활용해서 생성할 Bean객체를 지정해준다. 
+
 
 ### @Bean 과 @Component 의 차이점  
 - 둘 다 스프링 컨테이너에 빈 객체를 등록할 때 사용한다. 
