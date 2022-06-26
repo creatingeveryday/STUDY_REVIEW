@@ -275,4 +275,13 @@ HTTP 완벽가이드
 			- 동사를 직접 사용
 			- 주문의 상태를 다음 상태로 진행하는 것을 어떻게 url로 설계할까? 
 			- POST /orders/{orderNo}/delivery
-	- 
+- HTTP 상태코드
+``` 
+1xx (Informational) : 요청이 수신되어 처리중 (거의 사용되지 않음) 
+2xx (Successful) 	: 요청 정상 처리
+3xx (Redirection) 	: 요청을 완료하려면 추가 행동이 필요
+4xx (Clinet Error) 	: 클라이언트 오류, 잘못된 문법 등으로 서버가 요청을 수행할 수 없음
+5xx (Server Error) 	: 서버 오류, 서버가 정상 요청을 처리하지 못함. 
+```
+
+
