@@ -88,3 +88,29 @@
 #### 스프링 MVC : 메시지 처리
 
 -   뷰 쪽에서 사용할 문자열을 언어별로 파일에 보관하고 있다가 언어에 따라 알맞은 파일에서 문자열을 읽어와서 표시하는 기능을 제공.
+
+#### 스프링 MVC : 커맨드 객체 검증 및 에러 메시지 처리
+
+** 검증 순서 ** 
+1. 스프링은 커맨드 객체를 검증하고 결과를 에러코드로 저장
+- Validator, Errors (또는 BindingResult) 인터페이스를 이용해서 검증한다. 
+- 요청 매핑 어노테이션을 붙은 메서드에서 Error 타입의 파라미터 추가시 반드시 커맨더 객체 다음에 위치해야한다. 
+
+2. 에러 코드로부터 메시지를 출력
+	- 검증 후 추가된 에러 코드를 이용해 작성된 메시지를 검색해서 출력한다.
+
+스프링 MVC는 모든 컨트롤러에 적용할 수 있는 글로벌 Validator와 단일 컨트롤러에 적용할 수 있는 Validator를 설정하는 방법을 제공하고 그리고 더 간편하게 Bean Validation을 이용한 값 검증 처리를 지원한다. 설정하는 방법만 다르고 검증을 수행 방법은 @Valid 어노테이션을 커맨드 객체에 적용하여 사용한다. 
+- 직접 Validator 설정
+	- 글로벌 범위 Validator 
+		- WebMvcConfigurer 인터페이스에 정의된 getValidator 메서드를 구현
+	- 컨트롤러 범위 Validator
+		 - @InitBinder 를 이용하여 적용할 validator 설정 후 사용한다. 
+
+- Bean Validation을 이용한 간편한 검증 처리 
+	1. Bean Validation 관련 의존을 추가한다. 
+	2. 'org.springframework.boot:spring-boot-starter-validation' 
+	3. OptionalValidatorFactoryBean 클래스를 빈으로 등록한다. 
+	4. 커맨드 객체 속성에 @NotEmpty, @NotNull, @Email… 어노테이션을 적용한다. 
+	5. 컨트롤러에서 커맨드 객체에 @Valid 어노테이션 적용하여 검증한다.
+
+Service나 Bean에서 사용하기 위해서는 '@Validated'와 '@Valid'를 추가해야 한다.  컨트롤러 클래스는 추가해주지 않아도 된다. 
