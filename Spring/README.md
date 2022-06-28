@@ -35,9 +35,9 @@
 - @Bean 은 외부 라이브러리의 클래스를 스프링 컨테이너에 빈 객체로 등록할때 사용한다. 메소드 내부에서 객체 생성후 리턴하여 등록한다.
 - @Component 는 개발자가 직접 작성한 클래스를 스프링 컨테이너에 빈 객체로 등록할 때 사용한다.
 
-###  # Spring MVC
+## Spring MVC
 
-#### 핵심 구성 요소 및 요청 처리 순서
+### 핵심 구성 요소 및 요청 처리 순서
 ```
 1.  클라이언트 측에서 요청 전송하면 DispatcherServlet이 받는다.
     
@@ -52,7 +52,7 @@
 6.  뷰 객체가 전송할 응답 결과를 생성한다.    
 ```
 
-#### Redirect( 리다이렉트) “redirect: 경로”
+## Redirect( 리다이렉트) “redirect: 경로”
 
 -   경로가 / 로 시작시 웹 애플리케이션을 기준으로 이동경로를 생성
     
@@ -61,7 +61,7 @@
 -   프로토콜까지 포함하는 완전한 URL 경로를 사용할 수도 있음
     
 
-#### 커맨드 객체를 이용한 요청 파라미터 처리
+## 커맨드 객체를 이용한 요청 파라미터 처리
 
 -   커맨드 객체는 요청 파라미터가 담긴 객체이다.
     
@@ -85,11 +85,11 @@
 -   name 속성으로 responses[0]
     
 
-#### 스프링 MVC : 메시지 처리
+## 스프링 MVC : 메시지 처리
 
 -   뷰 쪽에서 사용할 문자열을 언어별로 파일에 보관하고 있다가 언어에 따라 알맞은 파일에서 문자열을 읽어와서 표시하는 기능을 제공.
 
-#### 스프링 MVC : 커맨드 객체 검증 및 에러 메시지 처리
+## 스프링 MVC : 커맨드 객체 검증 및 에러 메시지 처리
 
 ** 검증 순서 ** 
 1. 스프링은 커맨드 객체를 검증하고 결과를 에러코드로 저장
@@ -114,3 +114,98 @@
 	5. 컨트롤러에서 커맨드 객체에 @Valid 어노테이션 적용하여 검증한다.
 
 Service나 Bean에서 사용하기 위해서는 '@Validated'와 '@Valid'를 추가해야 한다.  컨트롤러 클래스는 추가해주지 않아도 된다. 
+
+## 세션
+
+상태를 유지하기 위해 세션 이용
+
+컨트롤러에서 HttpServletRequest 파라미터를 이용해 HttpSession 객체를 사용하거나 바로 HttpSession 파라미터를 이용해서 사용합니다.
+
+## 인터셉터
+
+컨트롤러 실행 전, 실행 후, 클라이언트에 뷰를 전송한 이후에 원하는 로직을 실행할 수 있다.
+
+-   preHandle : 리턴 타입이 boolean 이므로 false 일 경우 컨트롤러를 실행하지 않는다.
+    
+-   postHandle : 컨트롤러에서 Exception 발생시 postHandle 메서드는 실행되지 않는다.
+    
+-   afterCompletion : 컨트롤러 실행과정에서 Exception이 발생하면 객체가 전달된다. 발생하지 않으면 네번째 파라미터인 Exception 파라미터는 null이 된다.
+    
+HandlerInterceptor 인터페이스를 구현하여 사용하며 인터셉터를 만든 뒤에 addInterceptors 메서드를 통해 적용될 경로와 인터셉터를 등록하여 사용한다.
+
+## 쿠키
+
+컨트롤러단에서 HttpServletResponse 객체에 쿠키를 설정하고 addCookie 메서드를 통해 쿠키를 생성한다.
+
+@CookieValue 어노테이션을 사용해서 쉽게 쿠키를 파라미터로 전달 받을 수 있다.
+
+-   value : 쿠키의 이름을 지정
+    
+-   required : true 가 기본 값이며 지정한 이름을 가진 쿠키가 존재하지않으면 Exception 발생
+    
+-   defaultValue : 기본 값을 지정
+
+
+## 날짜 변환
+
+@DateTimeFormat : 날짜 문자열을 날짜 객체로 변환한다. 커맨드 객체 필드에 적용하여 사용한다. 커맨드 객체에 @DateTimeFormat 어노테이션이 적용되어 있으면 @DateTimeFormat에서 지정한 형식을 이용해서 문자열을 LocalDateTime 타입으로 변환한다.
+
+-   변환 처리 과정
+
+스프링 MVC는 컨트롤러의 요청 url 매핑된 메서드와 DispatcherServlet 사이를 연결하기 위해 RequestMappingHandlerAdapter 객체를 사용하는데 이 핸들러 어댑터 객체가 요청 파라미터와 커맨드 객체 사이의 변환 처리를 위해 WebDataBinder 를 사용합니다.
+
+WebDataBinder는 커맨드 객체를 생성하고 커맨드 객체와 같은 이름을 갖는 요청파라미터를 이용해 프로퍼티 값을 생성합니다. 이 과정에서 WebDataBinder는 직접 타입을 변환하지 않고 ConversionService에 그 역할을 위임합니다.
+
+ConversionService 인터페이스는 기본적인 타입들의 변환을 지원하고 사용자가 작성한 컨버터를 등록할 수 있게 해준다. 기본적으로 ’FormattingConversionServiceFactoryBean’을 사용한다.
+
+
+## 익셉션 처리
+
+  
+
+### @ExceptionHandler 
+해당 컨트롤러에 @ExceptionHandler 어노테이션을 적용한 메서드가 존재하면그 메서드가 익셉션을 처리한다.
+
+-   적용한 메서드는 컨트롤러의 요청 매핑 어노테이션 적용 메서드와 마찬가지로 뷰 이름을 리턴할 수도 있다.
+    
+-   익셉션 객체에 대한 정보를 알고 싶다면 메서드의 파라미터로 익셉션 객체를 전달받아 사용하면 된다.
+    
+-   적용 메서드가 가질 수 있는 파라미터 : HttpServletRequest, HttpServletResponse, HttpSession, Model, Exception
+    
+-   적용 메서드가 가질 수 있는 리턴 타입: ModelAndView, String, ResponseEntity, 임의의 객체 (@ResponseBody 어노테이션을 붙인 경우)
+    
+
+### @ControllerAdvice
+이렇게 컨트롤러마다 익셉션 처리 메서드를 작성하면 많은 중복이 발생하므로 @ControllerAdvice 어노테이션을 이용해서 중복을 없앨 수 있다. 적용된 클래스는 지정한 범위의 컨트롤러에 공통으로 사용될 설정을 지정할 수 있다.
+
+-   적용된 클래스는 지정한 범위의 컨트롤러에 공통으로 사용될 설정을 지정할 수 있다.
+-   사용하기 위해서 해당 클래스는 빈으로 등록되어야 한다.
+-   속성
+	-   value, basePackages : 공통 설정을 적용할 컨트롤러가 속하는 기준 패키지
+	-   annotations : 특정 어노테이션이 적용된 컨트롤러를 대상으로 지정
+	-   assignableTypes : 특정 타입 또는 그 하위 타입인 컨트롤러 대상으로 지정
+
+
+## JSON 응답과 요청 처리
+
+  
+
+스프링MVC는 자바객체를 HTTP 응답으로 변환할 떄 HttpMessageConverter를 사용한다. Jackson 을 이용해서 자바객체를 JSON으로 변환할 때는 MappingJackson2HttpConverter를 사용
+
+
+## 프로필과 프로퍼티 파일 : Profile
+
+개발환경 설정과 실제 서비스 운영환경 설정을 구분하여 관리하는 스프링의 기능은 Profile 이다.
+
+각기 다른 프로필을 전환하여 편리하게 스프링컨테이너를 초기화해서 사용할 수 있다.
+
+프로필 설정 및 적용 방법
+
+-   @Configuration 설정에서 프로필을 사용하려면 @Profile 어노테이션을 붙여서 사용한다. 컨테이너를 초기화하기전에 setActiveProfiles 메서드를 사용해서 프로필을 선택한다. 적용된 클래스는 해당 프로필을 활성화했을때 적용되는 설정클래스를 의미한다.
+	-   spring.profiles.active 시스템 속성에 값을 지정한다.
+	-   java -Dspring.profiles.active=dev xxx.jar
+    
+-   프로퍼티 파일을 이용
+	-   스프링은 외부의 프로퍼티 파일을 이용해서 스프링 빈을 설정하는 방법을 제공한다.
+	-   PropertySorucePlaceholderConfigurer 빈 설정하고 프로퍼티 파일 경로를 설정한다. 그 후 @Value 어노테이션으로 프로퍼티 값 사용 가능
+	-   스프링부트에서는 src/main/resources 디렉토리에 있는 application.properties 파일을 자동으로 감지하여 바로 @Value 어노테이션을 사용가능합니다.
