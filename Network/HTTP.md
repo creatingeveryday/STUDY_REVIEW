@@ -352,8 +352,9 @@ HTTP 완벽가이드
 	- header-field = field-name: OWS field-value OWS
 	- 용도 : HTTP전송에 필요한 모든 부가정보를 포함한다. 바디 내용, 크기, 압축, 인증, 캐시 정보...
 	- 표준헤더도 종류가 다양하고 임의의 헤더를 추가할 수도 있다.
-	- 클라이언트가 선호하는 표현을 헤더에 담아 요청할 수도 있다.
-		- Accept
+	- 클라이언트가 선호하는 표현을 헤더에 담아 요청할 수도 있다.(협상) 서버가 우선순위에 따라 응답.
+		- Accept: text/*, text/plain, text/plain;format=flowed 	//구체적인 것이 우선
 		- Accept-Charset
 		- Accept-Encoding
-		- Accept-Language
+		- Accept-Language: ko-KR;q=1(생략가능),en-US;q=0.8,en;q=0.7    //우선순위  q-Value
+		- 
