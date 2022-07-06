@@ -357,4 +357,8 @@ HTTP 완벽가이드
 		- Accept-Charset
 		- Accept-Encoding
 		- Accept-Language: ko-KR;q=1(생략가능),en-US;q=0.8,en;q=0.7    //우선순위  q-Value
-		- 
+	- 전송 방식
+		- 단순 전송: Content-length 정보 제공
+		- 압축 전송: Content-Encoding 정보 제공
+		- 분할 전송: Transfer-Encoding: chunked, Content-length 사용하면 안됨. 
+		- 범위 전송: Range: bytes=1001-2000, Content-Range: bytes 1001-2000 / 2000 
