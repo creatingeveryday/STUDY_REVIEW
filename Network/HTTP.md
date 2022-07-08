@@ -383,4 +383,8 @@ HTTP 완벽가이드
 			- 503 Service Unavailable :서비스가 언제까지 작동불능인지 알려줄 수 있음.    
 			- Retry-After: Mon, 1 WED 2000 22:22:11 GMT (날짜 표기로 알려줌)
 			- Retry-After: 120 (초 단위로 표기) 
-		- 
+	- 인증
+		- Authorization: 클라이언트의 인증 정보를 서버에 전달
+		- WWW-Authenticate: 리소스 접근시 필요한 인증 방법 정의
+			- 401 Unauthorized 응답과 함께 사용한다. 
+	- 
