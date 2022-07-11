@@ -428,3 +428,19 @@ HTTP 완벽가이드
 			- 애플리케이션 배포 주기에 맞추어 ETag 모두 갱신 
 		- 조건이 만족하면 200 OK
 		- 조건이 만족하지 않은 경우 304 Not Modified
+	- 캐시 제어 헤더
+		- Cache-Control: 캐시 제어
+			- max-age : 캐시 유효시간, 초단위임
+			- no-cache : 데이터는 캐시해도 되지만, 항상 Origin 서버에 검증하고 사용해야함. 캐시서버, 프록시 서버가 아니라 오리진 서버로부터 검증받아야함.
+			- no-store : 데이터에 민감한 정보가 있으므로 저장하면 안되므로 메모리에서 사용하고 바로 삭제
+		- Pragma: 캐시 제어(하위 호환) 
+			- no-cache , HTTP 1.0 하위 호환
+		- Expires: 캐시 유효기간(하위 호환)
+			- 캐시 만료일을 정확한 날짜로 지정
+			- HTTP 1.0부터 사용
+			- 지금은 더 유연한 Cache-Control : max-age를 사용하는게 좋다. 
+			- Cache-Control: max-age와 함께 사용되면 Expires는 무시됨.
+		- 검증 헤더 : ETag, Last-Modified
+		- 조건부 요청 헤더 
+		- If-Match, If-None-Match : ETag 값 사용
+		- If-Modified-Since, If-Unmodified-Since: Last-Modified 값 사용
