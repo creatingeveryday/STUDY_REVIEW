@@ -444,3 +444,9 @@ HTTP 완벽가이드
 		- 조건부 요청 헤더 
 		- If-Match, If-None-Match : ETag 값 사용
 		- If-Modified-Since, If-Unmodified-Since: Last-Modified 값 사용
+	- 프록시 캐시
+		- public 캐시 / private 캐시
+		- Cache-Control: public - 응답이 public 캐시에 저장되어도 된다.
+		- Cache-Control: private -응답이 해당 사용자만을 위한 것이므로 private 캐시에 저장되어야한다. 기본값.
+		- Cache-Control: s-maxage - 프록시 캐시에만 적용되는 max-age
+		- Age: 60 (HTTP 헤더) : 오리진 서버에서 응답 후 프록시 캐시 내에 머문 시간(초)
