@@ -450,3 +450,10 @@ HTTP 완벽가이드
 		- Cache-Control: private -응답이 해당 사용자만을 위한 것이므로 private 캐시에 저장되어야한다. 기본값.
 		- Cache-Control: s-maxage - 프록시 캐시에만 적용되는 max-age
 		- Age: 60 (HTTP 헤더) : 오리진 서버에서 응답 후 프록시 캐시 내에 머문 시간(초)
+	- 캐시 무효화
+		- Cache-Control: no-cache, no-store, must-revalidate
+		- Pragma: no-cache
+		- Cache-Control: must-revalidate 란? 
+			- 캐시 만료후 최초 조회시 원 서버에 검증해야함
+			- 원 서버 접근 실패시 반드시 오류가 발생해야함  (504 Gateway Timeout)
+			- must-revalidate는 캐시 유효시간이라면 캐시를 사용함
