@@ -22,7 +22,7 @@
 - sub 프로젝트
     - 각각의 sub 모듈마다 build.gradle 파일을 만들고 설정한다.
 
-```
+```text
 ├── .gradle
 │   └── ⋮
 ├── gradle
@@ -48,6 +48,7 @@
 ![초기_프로젝트_디렉토리_구조](docs/images/초기_프로젝트_디렉토리_구조.png)
 
 **build.gradle**
+
 ```groovy
 plugins {
 	id 'java'
@@ -95,6 +96,7 @@ DB에 접근하는 용도인 storage 모듈로 나눠서 적용해보겠습니�
 - gradle 설정 파일에서 사용할 환경변수를 정의하고 한 곳에서 편리하게 관리할 수 있다.
 
 **build.properties**
+
 ```properties
 ### Application version ###
 applicationVersion=0.0.1-SNAPSHOT
@@ -114,6 +116,7 @@ springDependencyManagementVersion=1.1.4
 - 프로젝트 계층 구조는 ":" 으로 구분한다.
 
 **settings.gradle**
+
 ```groovy
 pluginManagement {
     plugins {
@@ -149,6 +152,7 @@ include 'storage'
     - bootjar 를 생성해야하는 모듈에만 설정을 추가로 적용
 
 **build.gradle**
+
 ```groovy
 plugins {
     id 'java-library'
@@ -195,6 +199,7 @@ subprojects {
 - storage 모듈을 포함한다.
 
 **build.gradle**
+
 ```groovy
 bootJar.enabled = true
 jar.enabled = false
@@ -213,6 +218,7 @@ dependencies {
 - db 접근계층(리포지토리, 엔티티 클래스)
 
 **build.gradle**
+
 ```groovy
 dependencies {
     api 'org.springframework.boot:spring-boot-starter-data-jpa'
