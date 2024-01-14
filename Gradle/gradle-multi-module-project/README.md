@@ -47,9 +47,41 @@
 
 ![초기_프로젝트_디렉토리_구조](docs/images/초기_프로젝트_디렉토리_구조.png)
 
-[build.gradle]
+**build.gradle**
+```groovy
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '3.1.7'
+	id 'io.spring.dependency-management' version '1.1.4'
+}
 
-![초기설정_적용전](docs/images/초기설정_root프로젝트build.gradle설정.png)
+group = 'com.code'
+version = '0.0.1-SNAPSHOT'
+
+java {
+	sourceCompatibility = '17'
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	runtimeOnly 'com.h2database:h2'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+tasks.named('bootBuildImage') {
+	builder = 'paketobuildpacks/builder-jammy-base:latest'
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
+```
+
 
 ### (2) 멀티 모듈 적용
 
@@ -62,14 +94,43 @@ DB에 접근하는 용도인 storage 모듈로 나눠서 적용해보겠습니�
 
 - gradle 설정 파일에서 사용할 환경변수를 정의하고 한 곳에서 편리하게 관리할 수 있다.
 
-![root프로젝트_gradle.properties_설정](docs/images/root프로젝트_gradle.properties_설정.png)
+**build.properties**
+```properties
+### Application version ###
+applicationVersion=0.0.1-SNAPSHOT
+
+### Project configs ###
+projectGroup=com.code.sample
+javaVersion=17
+
+### Spring dependency versions ###
+springBootVersion=3.1.7
+springDependencyManagementVersion=1.1.4
+```
 
 #### [root 프로젝트 settings.gradle]
 
 - include 키워드를 통해 root 프로젝트가 하위 프로젝트(모듈)를 모두 관리하게 설정한다.
 - 프로젝트 계층 구조는 ":" 으로 구분한다.
 
-![root프로젝트_settings.gradle_설정](docs/images/root프로젝트_settings.gradle_설정.png)
+**settings.gradle**
+```groovy
+pluginManagement {
+    plugins {
+        id 'org.springframework.boot' version "${springBootVersion}"
+        id 'io.spring.dependency-management' version "${springDependencyManagementVersion}"
+    }
+}
+
+rootProject.name = 'sample'
+
+include 'core-api'
+include 'storage'
+
+// include: 지정된 프로젝트를 빌드에 추가합니다.
+// 제공된 목록의 각 경로는 빌드에 추가할 프로젝트의 경로로 처리됨
+// 프로젝트 계층 구조는 ':' 으로 구분한다.
+```
 
 #### [root 프로젝트 build.gradle] root 프로젝트 build.gradle 설정 파일 추가
 
@@ -87,7 +148,45 @@ DB에 접근하는 용도인 storage 모듈로 나눠서 적용해보겠습니�
   - 하위 모듈은 단독으로 실행불가능한 모듈이므로 일괄적으로 jar 파일로 생성되게 설정한다. 
     - bootjar 를 생성해야하는 모듈에만 설정을 추가로 적용
 
-![적용후_build.gradle설정](docs/images/root프로젝트_build.gradle_설정.png)
+**build.gradle**
+```groovy
+plugins {
+    id 'java-library'
+    id 'org.springframework.boot' apply(false)
+    id 'io.spring.dependency-management'
+}
+
+allprojects {
+    group = "${projectGroup}"
+    version = "${applicationVersion}"
+    sourceCompatibility = project.javaVersion
+
+    repositories {
+        mavenCentral()
+    }
+}
+
+subprojects {
+    apply plugin: 'java-library'
+    apply plugin: 'org.springframework.boot'
+    apply plugin: 'io.spring.dependency-management'
+
+    dependencies {
+        testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+        testImplementation platform('org.junit:junit-bom:5.9.1')
+        testImplementation 'org.junit.jupiter:junit-jupiter'
+    }
+
+    bootJar.enabled = false
+    jar.enabled = true
+
+    tasks.named('test') {
+        useJUnitPlatform()
+    }
+
+}
+```
 
 #### [sub 프로젝트 core-api 모듈 build.gradle]
 
@@ -95,13 +194,32 @@ DB에 접근하는 용도인 storage 모듈로 나눠서 적용해보겠습니�
 - 실행가능한 bootjar 생성한다.
 - storage 모듈을 포함한다.
 
-![coreapi모듈_build.gradle_설정파일](docs/images/coreapi모듈_build.gradle_설정파일.png)
+**build.gradle**
+```groovy
+bootJar.enabled = true
+jar.enabled = false
+
+
+dependencies {
+    implementation project(":storage")
+
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+}
+
+```
 
 #### [sub 프로젝트 storage 모듈 build.gradle]
 
 - db 접근계층(리포지토리, 엔티티 클래스)
 
-![storage모듈_build.gradle_설정](docs/images/storage모듈_build.gradle_설정.png)
+**build.gradle**
+```groovy
+dependencies {
+    api 'org.springframework.boot:spring-boot-starter-data-jpa'
+    runtimeOnly 'com.h2database:h2'
+}
+
+```
 
 
 참고해서 간단하게 멀티 모듈 설정을 적용해보았습니다.   
