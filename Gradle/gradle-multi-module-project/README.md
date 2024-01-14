@@ -1,13 +1,12 @@
 # Gradle 멀티 모듈 프로젝트
 
 ## 포스팅 환경
-
-<details markdown="1">
-  <summary>Java 17, SpringBoot 3.1.7, Gradle 8.5</summary>
-
-![프로젝트세팅](docs/images/프로젝트세팅.png)
-
-</details>
+- Java 17
+- SpringBoot 3.1.7
+- Gradle - Groovy 8.5
+- Spring Web
+- H2
+- Spring Data Jpa
 
 ## 0. 멀티 모듈 사용 이유
 
