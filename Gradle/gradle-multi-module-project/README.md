@@ -13,7 +13,6 @@
 
 - 일반적으로 프로젝트 규모가 커지고 복잡해지는 경우 프로젝트를 '작고 상호의존적인 모듈'로 분할해서 관리하는 것이 좋습니다.
 - 모듈 분리를 통해 의존성을 관리할 수 있습니다.
--
 
 ## 1. 프로젝트 구조
 
@@ -58,7 +57,7 @@
 간단하게 웹 계층을 담당하는 core-api 모듈,
 DB에 접근하는 용도인 storage 모듈로 나눠서 적용해보겠습니다.
 
-[github 에서 전체 소스 코드 확인하기](##################################################)
+[github 에서 전체 소스 코드 확인하기](https://github.com/creatingeveryday/STUDY_REVIEW/tree/main/Gradle/gradle-multi-module-project)
 
 #### [root 프로젝트 gradle.properties]
 
